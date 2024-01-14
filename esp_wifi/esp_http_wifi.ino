@@ -53,7 +53,7 @@ void setup() {
   WiFi.mode(WIFI_STA);
   WiFiMulti.addAP(STASSID, STAPSK);
   Serial.println("setup() done connecting to ssid '" STASSID "'");
-  Serial.println(WiFi.localIP());*/
+  Serial.println(WiFi.localIP());
   WiFi.begin(STASSID, STAPSK);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -71,7 +71,7 @@ void loop() {
     HTTPClient http;
 
 
-    if (http.begin(client,"http://de1.bot-hosting.net:20355/references?api_key=AOpSUlrHnNwvAR5bd0a7iYH1lK0VwcYHtzy5v4Sc5g0")) {
+    if (http.begin(client,"Your link")) {
 
       int httpCode = http.GET();
 
@@ -108,7 +108,7 @@ void loop() {
       irg = msgFromGreenHouse.substring(msgFromGreenHouse.indexOf("irg")+4,msgFromGreenHouse.indexOf("end"));
 
       parsedReadings = "";
-      parsedReadings.concat("{\"api_key\":\"AOpSUlrHnNwvAR5bd0a7iYH1lK0VwcYHtzy5v4Sc5g0\",");
+      parsedReadings.concat("{\"api_key\":\"Your key\",");
       parsedReadings.concat("\"humidity\":\"");
       parsedReadings.concat(mst);
       parsedReadings.concat("\",");
@@ -119,7 +119,7 @@ void loop() {
       parsedReadings.concat(tmp);
       parsedReadings.concat("\"}");
       parsedStatuses = "";
-      parsedStatuses.concat("{\"api_key\":\"AOpSUlrHnNwvAR5bd0a7iYH1lK0VwcYHtzy5v4Sc5g0\",");
+      parsedStatuses.concat("{\"api_key\":\"Your key\",");
       parsedStatuses.concat("\"heating\":\"");
       parsedStatuses.concat(htr);
       parsedStatuses.concat("\",");
@@ -136,9 +136,9 @@ void loop() {
 
     }
     if (parsingOk && dataChanged){
-      if (http.begin(client,"http://de1.bot-hosting.net:20355/readings?")) {
+      if (http.begin(client,"Your link")) {
         http.addHeader("Content-Type", "application/json");
-        http.addHeader("auth-key", "AOpSUlrHnNwvAR5bd0a7iYH1lK0VwcYHtzy5v4Sc5g0");
+        http.addHeader("auth-key", "Your key");
         int httpResponseCode = http.PUT(parsedReadings);
         
         if(httpResponseCode>0){
@@ -149,7 +149,7 @@ void loop() {
       } else {
 
       }
-      if (http.begin(client,"http://de1.bot-hosting.net:20355/statuses?")) {
+      if (http.begin(client,"Your link")) {
         http.addHeader("Content-Type", "application/json");
         int httpResponseCode = http.PUT(parsedStatuses);
         http.end();
